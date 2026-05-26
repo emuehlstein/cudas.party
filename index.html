@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🦈 Cudas Party — Kettle Moraine 2026</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --border: #2a2d3a;
+    --text: #e8eaf0;
+    --muted: #7a7f94;
+    --accent: #4fc3f7;
+    --green: #66bb6a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 64px 20px 40px;
+    background: linear-gradient(180deg, #0a0d14 0%, var(--bg) 100%);
+  }
+  .hero-shark { font-size: 56px; display: block; margin-bottom: 16px; }
+  .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -0.02em; }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub { color: var(--muted); font-size: 1.05rem; margin-top: 8px; }
+  .hero-date {
+    display: inline-block;
+    margin-top: 20px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 8px 24px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.01em;
+  }
+
+  /* Sections */
+  .section { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+  .section-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+    color: var(--text);
+  }
+
+  /* Details grid */
+  .details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .detail-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .detail-card h3 { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px; }
+  .detail-card p { font-size: 0.95rem; font-weight: 500; }
+  .detail-card .sub { font-size: 0.82rem; color: var(--muted); margin-top: 2px; }
+
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #0a0d14;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-top: 8px;
+  }
+  .cta-link:hover { opacity: 0.88; }
+
+  /* Map */
+  .map-section { padding: 0 0 0; }
+  .map-wrap {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  #map { width: 100%; height: 500px; }
+
+  .map-controls {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+  }
+  .theme-btn {
+    background: rgba(26,29,39,0.92);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 7px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #ccc;
+    backdrop-filter: blur(8px);
+    transition: all 0.2s;
+  }
+  .theme-btn.active { background: var(--accent); color: #0a0d14; border-color: transparent; }
+  .theme-btn:not(.active):hover { background: rgba(80,90,110,0.9); color: #fff; }
+
+  #legend {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    z-index: 10;
+    background: rgba(26,29,39,0.92);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 11px;
+    color: #ccc;
+    line-height: 1.85;
+    backdrop-filter: blur(8px);
+  }
+  .legend-row { display: flex; align-items: center; gap: 8px; }
+  .legend-icon { width: 18px; height: 18px; }
+
+  /* Trails */
+  .trails-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .trail-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+  }
+  .trail-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+  .trail-card p { font-size: 0.88rem; color: var(--muted); }
+
+  /* Know before */
+  .knowbefore-list { display: flex; flex-direction: column; gap: 14px; }
+  .kb-item { display: flex; gap: 14px; align-items: flex-start; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+  .kb-icon { font-size: 1.6rem; flex-shrink: 0; }
+  .kb-item h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 3px; }
+  .kb-item p { font-size: 0.87rem; color: var(--muted); }
+  .kb-item a { color: var(--accent); }
+
+  /* Footer */
+  footer { text-align: center; padding: 32px 20px; color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--border); }
+
+  /* MapLibre popup */
+  .maplibregl-popup-content {
+    background: #1a1d27 !important;
+    color: #e8eaf0 !important;
+    border: 1px solid #2a2d3a !important;
+    border-radius: 8px !important;
+    padding: 10px 14px !important;
+    font-size: 13px !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5) !important;
+  }
+  .maplibregl-popup-tip { border-top-color: #1a1d27 !important; }
+  .maplibregl-popup-content strong { display: block; font-size: 14px; margin-bottom: 2px; }
+  .maplibregl-popup-content .poi-sub { color: #7a7f94; font-size: 11px; }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <span class="hero-shark">🦈</span>
+  <h1>Cudas <span>Party</span></h1>
+  <p class="hero-sub">Kettle Moraine State Forest — Southern Unit</p>
+  <span class="hero-date">June 12–14, 2026</span>
+</div>
+
+<!-- Details -->
+<section class="section">
+  <h2 class="section-title">The Details</h2>
+  <div class="details-grid">
+    <div class="detail-card">
+      <h3>Location</h3>
+      <p>Whitewater Lake</p>
+      <p class="sub">Hickory Woods Group Camp</p>
+    </div>
+    <div class="detail-card">
+      <h3>Sites</h3>
+      <p>763 &amp; 764</p>
+      <p class="sub">30 ft driveway max</p>
+    </div>
+    <div class="detail-card">
+      <h3>Check-in</h3>
+      <p>Friday, June 12</p>
+      <p class="sub">3:00 PM</p>
+    </div>
+    <div class="detail-card">
+      <h3>Check-out</h3>
+      <p>Sunday, June 14</p>
+      <p class="sub">1:00 PM</p>
+    </div>
+    <div class="detail-card">
+      <h3>Address</h3>
+      <p>S91 W39091 Hwy 59</p>
+      <p class="sub">Eagle, WI 53119</p>
+    </div>
+    <div class="detail-card">
+      <h3>Park Phone</h3>
+      <p>1-888-947-2757</p>
+    </div>
+  </div>
+  <a class="cta-link" href="https://maps.google.com/?daddr=42.7816,-88.6910" target="_blank">
+    📍 Get Directions to Whitewater Lake Campground →
+  </a>
+</section>
+
+<!-- Map -->
+<section class="section map-section">
+  <h2 class="section-title" style="max-width:900px;margin:0 auto;padding:0 20px 10px;">Map</h2>
+  <div style="max-width:900px;margin:0 auto;padding:0 20px 40px;">
+    <div class="map-wrap">
+      <div class="map-controls">
+        <button class="theme-btn active" id="btn-cool" onclick="setTheme('cool')">🔵 Cool Elevation</button>
+        <button class="theme-btn" id="btn-daylight" onclick="setTheme('daylight')">☀️ Daylight</button>
+      </div>
+      <div id="map"></div>
+      <div id="legend">
+        <div class="legend-row"><img class="legend-icon" id="leg-campsite" src="icons/tent-dark.svg"> Campsite</div>
+        <div class="legend-row"><img class="legend-icon" id="leg-shower" src="icons/shower-dark.svg"> Shower</div>
+        <div class="legend-row"><img class="legend-icon" id="leg-flush" src="icons/toilet-plumbed-dark.svg"> Flush Toilet</div>
+        <div class="legend-row"><img class="legend-icon" id="leg-vault" src="icons/toilet-vault-dark.svg"> Vault Toilet</div>
+        <div class="legend-row"><img class="legend-icon" id="leg-grocery" src="icons/grocery-dark.svg"> Grocery / Store</div>
+        <div class="legend-row"><img class="legend-icon" id="leg-mcmiller" src="icons/mcmiller-dark.svg"> McMiller Sports</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:14px;flex-wrap:wrap;">
+      <a class="cta-link" href="https://maps.google.com/?daddr=42.7816,-88.6910" target="_blank">Google Maps Directions</a>
+      <a class="cta-link" style="background:var(--card);color:var(--accent);border:1px solid var(--border);" href="https://dnr.wisconsin.gov/topic/parks/kettlemor/south" target="_blank">Park Website</a>
+      <a class="cta-link" style="background:var(--card);color:var(--accent);border:1px solid var(--border);" href="https://dnr.wisconsin.gov/topic/parks/admission" target="_blank">Buy Vehicle Pass</a>
+    </div>
+  </div>
+</section>
+
+<!-- Trails -->
+<section class="section">
+  <h2 class="section-title">Trails &amp; Activities</h2>
+  <div class="trails-grid">
+    <div class="trail-card"><h3>🥾 John Muir Trail</h3><p>Classic Kettle Moraine loops ranging 4–16 miles. Mix of prairie, forest, and kettles. Trailhead near Ottawa Lake.</p></div>
+    <div class="trail-card"><h3>🧊 Ice Age Trail</h3><p>Designated National Scenic Trail tracing the edge of the last glacier. Multiple segments accessible from the Southern Unit.</p></div>
+    <div class="trail-card"><h3>🚵 Emma Carlin Trail</h3><p>Mountain biking and hiking. About 12 miles of scenic wooded singletrack and doubletrack.</p></div>
+    <div class="trail-card"><h3>🛶 Ottawa Lake Canoe Trail</h3><p>Paddling trail on Ottawa Lake. Canoe/kayak rentals available on-site.</p></div>
+    <div class="trail-card"><h3>🏊 Swimming</h3><p>Swimming beach at Ottawa Lake and Whitewater Lake. Lifeguard hours vary — check at the park office.</p></div>
+    <div class="trail-card"><h3>🎿 McMiller Sports Center</h3><p>Multi-use recreation area nearby. Archery, shooting sports, and more.</p></div>
+  </div>
+</section>
+
+<!-- Good to Know -->
+<section class="section">
+  <h2 class="section-title">Good to Know</h2>
+  <div class="knowbefore-list">
+    <div class="kb-item">
+      <span class="kb-icon">🚗</span>
+      <div><h3>Vehicle Admission Pass Required</h3><p>Every motor vehicle needs a pass. Buy online in advance or at the gate. <a href="https://dnr.wisconsin.gov/topic/parks/admission" target="_blank">Buy online →</a></p></div>
+    </div>
+    <div class="kb-item">
+      <span class="kb-icon">🪵</span>
+      <div><h3>Firewood — Don't Bring It From Home</h3><p>Firewood must be from within 10 miles of the park, or DATCP-certified. Stops the spread of emerald ash borer. Buy it at the park or nearby.</p></div>
+    </div>
+    <div class="kb-item">
+      <span class="kb-icon">📏</span>
+      <div><h3>Site Driveway Max 30 ft</h3><p>Sites 763 &amp; 764 have a 30-foot max driveway. Plan trailer/RV lengths accordingly.</p></div>
+    </div>
+    <div class="kb-item">
+      <span class="kb-icon">🕒</span>
+      <div><h3>Check-in 3 PM / Check-out 1 PM</h3><p>Don't show up at 9 AM expecting to set up. Plan a late lunch stop on the way if needed.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>🦈 cudas.party · Kettle Moraine 2026 · Stay sharp out there</footer>
+
+<!-- MapLibre + PMTiles -->
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
+<script src="https://unpkg.com/pmtiles@3.2.0/dist/pmtiles.js"></script>
+<script>
+const protocol = new pmtiles.Protocol();
+maplibregl.addProtocol('pmtiles', protocol.tile);
+
+const TILES = {
+  cool:     'pmtiles://https://scriptedrelief.com/gallery/wi_dnr_lidar_n42.83_w88.28_cool-elevation_9.0x.pmtiles',
+  daylight: 'pmtiles://https://scriptedrelief.com/gallery/wi_dnr_lidar_n42.83_w88.28_daylight_9.0x.pmtiles',
+};
+
+const ROAD_COLORS = {
+  cool:     { p: '#cccccc', s: '#aaaaaa', t: '#888888' },
+  daylight: { p: '#555555', s: '#777777', t: '#999999' },
+};
+
+const ICON_DEFS = [
+  { type: 'campsite',       dark: 'icons/tent-dark.svg',            light: 'icons/tent-light.svg' },
+  { type: 'shower',         dark: 'icons/shower-dark.svg',          light: 'icons/shower-light.svg' },
+  { type: 'toilet_plumbed', dark: 'icons/toilet-plumbed-dark.svg',  light: 'icons/toilet-plumbed-light.svg' },
+  { type: 'toilet_vault',   dark: 'icons/toilet-vault-dark.svg',    light: 'icons/toilet-vault-light.svg' },
+  { type: 'grocery',        dark: 'icons/grocery-dark.svg',         light: 'icons/grocery-light.svg' },
+  { type: 'mcmiller',       dark: 'icons/mcmiller-dark.svg',        light: 'icons/mcmiller-light.svg' },
+];
+
+const LEGEND_IDS = {
+  campsite: 'leg-campsite', shower: 'leg-shower',
+  toilet_plumbed: 'leg-flush', toilet_vault: 'leg-vault',
+  grocery: 'leg-grocery', mcmiller: 'leg-mcmiller',
+};
+
+const POI_LABELS = {
+  campsite: 'Campsite', shower: 'Shower',
+  toilet_plumbed: 'Flush Toilet', toilet_vault: 'Vault Toilet',
+  grocery: 'Grocery / Store', mcmiller: 'McMiller Sports Center',
+};
+
+let currentTheme = 'cool';
+
+const map = new maplibregl.Map({
+  container: 'map',
+  style: {
+    version: 8,
+    glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
+    sources: { hillshade: { type: 'raster', url: TILES.cool, tileSize: 512, attribution: '© WI DNR LiDAR / scriptedrelief.com' } },
+    layers: [
+      { id: 'bg', type: 'background', paint: { 'background-color': '#1a1a2e' } },
+      { id: 'hillshade', type: 'raster', source: 'hillshade' }
+    ]
+  },
+  center: [-88.28, 42.83],
+  zoom: 10,
+  maxZoom: 17,
+  minZoom: 8,
+});
+
+map.addControl(new maplibregl.NavigationControl(), 'top-right');
+
+function loadImg(id, url) {
+  return new Promise((res, rej) => {
+    const img = new Image(32, 32);
+    img.onload = () => { if (map.hasImage(id)) map.removeImage(id); map.addImage(id, img); res(); };
+    img.onerror = rej;
+    img.src = url;
+  });
+}
+
+async function loadIcons(theme) {
+  await Promise.all(ICON_DEFS.map(d => loadImg('i-' + d.type, theme === 'daylight' ? d.light : d.dark)));
+}
+
+map.on('load', async () => {
+  await loadIcons(currentTheme);
+
+  const [pr, rr] = await Promise.all([fetch('pois.geojson'), fetch('roads_simplified.geojson')]);
+  const [pois, roads] = await Promise.all([pr.json(), rr.json()]);
+
+  map.addSource('roads', { type: 'geojson', data: roads });
+  // highway property is stored as first char: p=primary, s=secondary, t=tertiary, u=unclassified, r=residential
+  ['p','s','t'].forEach((hc, i) => {
+    const keys = ['p','s','t'];
+    const colors = [ROAD_COLORS.cool.p, ROAD_COLORS.cool.s, ROAD_COLORS.cool.t];
+    const widths = [[8,1,14,3],[8,0.7,14,2],[8,0.4,14,1.5]];
+    const opacities = [0.7, 0.6, 0.5];
+    map.addLayer({
+      id: 'road-' + hc,
+      type: 'line',
+      source: 'roads',
+      filter: ['==', ['get', 'h'], hc],
+      paint: {
+        'line-color': colors[i],
+        'line-width': ['interpolate', ['linear'], ['zoom'], widths[i][0], widths[i][1], widths[i][2], widths[i][3]],
+        'line-opacity': opacities[i],
+      }
+    });
+  });
+
+  map.addSource('pois', { type: 'geojson', data: pois });
+  map.addLayer({
+    id: 'pois',
+    type: 'symbol',
+    source: 'pois',
+    layout: {
+      'icon-image': ['concat', 'i-', ['get', 'poi_type']],
+      'icon-size': ['interpolate', ['linear'], ['zoom'], 9, 0.45, 13, 0.8, 16, 1.05],
+      'icon-allow-overlap': false,
+      'text-field': ['case', ['!=', ['get', 'name'], ''], ['get', 'name'], ''],
+      'text-font': ['Open Sans Regular'],
+      'text-size': 11,
+      'text-offset': [0, 1.3],
+      'text-anchor': 'top',
+      'text-optional': true,
+    },
+    paint: {
+      'text-color': '#eeeeee',
+      'text-halo-color': '#111122',
+      'text-halo-width': 1.5,
+    }
+  });
+
+  map.on('click', 'pois', e => {
+    const p = e.features[0].properties;
+    const label = POI_LABELS[p.poi_type] || p.poi_type;
+    const name = p.name || label;
+    const sub = p.name ? `<span class="poi-sub">${label}</span>` : '';
+    new maplibregl.Popup({ offset: 16 })
+      .setLngLat(e.features[0].geometry.coordinates)
+      .setHTML(`<strong>${name}</strong>${sub}`)
+      .addTo(map);
+  });
+  map.on('mouseenter', 'pois', () => map.getCanvas().style.cursor = 'pointer');
+  map.on('mouseleave', 'pois', () => map.getCanvas().style.cursor = '');
+});
+
+async function setTheme(theme) {
+  if (theme === currentTheme) return;
+  currentTheme = theme;
+  map.getSource('hillshade').setUrl(TILES[theme]);
+  map.setPaintProperty('bg', 'background-color', theme === 'daylight' ? '#e8e0d8' : '#1a1a2e');
+  const rc = ROAD_COLORS[theme];
+  [['road-p', rc.p], ['road-s', rc.s], ['road-t', rc.t]].forEach(([id, c]) => map.setPaintProperty(id, 'line-color', c));
+  await loadIcons(theme);
+  const tc = theme === 'daylight' ? '#222222' : '#eeeeee';
+  const hc = theme === 'daylight' ? '#ffffff' : '#111122';
+  map.setPaintProperty('pois', 'text-color', tc);
+  map.setPaintProperty('pois', 'text-halo-color', hc);
+  // Update legend icons
+  ICON_DEFS.forEach(d => {
+    const el = document.getElementById(LEGEND_IDS[d.type]);
+    if (el) el.src = theme === 'daylight' ? d.light : d.dark;
+  });
+  document.getElementById('btn-cool').classList.toggle('active', theme === 'cool');
+  document.getElementById('btn-daylight').classList.toggle('active', theme === 'daylight');
+}
+</script>
+
+</body>
+</html>

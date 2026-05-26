@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kettle Moraine — Map</title>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
+<script src="https://unpkg.com/pmtiles@3.2.0/dist/pmtiles.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: system-ui, sans-serif; background: #111; }
+
+  #map { width: 100%; height: 100vh; }
+
+  #controls {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .theme-btn {
+    background: rgba(255,255,255,0.92);
+    border: none;
+    border-radius: 20px;
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #333;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    transition: background 0.2s;
+  }
+  .theme-btn.active {
+    background: #1a1a2e;
+    color: #fff;
+  }
+  .theme-btn:not(.active):hover { background: #eee; }
+
+  /* Popup styles */
+  .maplibregl-popup-content {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  .maplibregl-popup-content strong { display: block; margin-bottom: 2px; font-size: 14px; }
+
+  #legend {
+    position: absolute;
+    bottom: 32px;
+    left: 12px;
+    z-index: 10;
+    background: rgba(255,255,255,0.92);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    line-height: 1.9;
+    color: #222;
+  }
+  #legend.dark-theme {
+    background: rgba(30,30,40,0.92);
+    color: #ddd;
+  }
+  .legend-row { display: flex; align-items: center; gap: 8px; }
+  .legend-icon { width: 20px; height: 20px; }
+</style>
+</head>
+<body>
+
+<div id="controls">
+  <button class="theme-btn" id="btn-daylight" onclick="setTheme('daylight')">☀️ Daylight</button>
+  <button class="theme-btn active" id="btn-cool" onclick="setTheme('cool')">🔵 Cool Elevation</button>
+</div>
+
+<div id="map"></div>
+
+<div id="legend">
+  <div class="legend-row"><img class="legend-icon" src="icons/tent-light.svg"> Campsite</div>
+  <div class="legend-row"><img class="legend-icon" src="icons/shower-light.svg"> Shower</div>
+  <div class="legend-row"><img class="legend-icon" src="icons/toilet-plumbed-light.svg"> Flush Toilet</div>
+  <div class="legend-row"><img class="legend-icon" src="icons/toilet-vault-light.svg"> Vault Toilet</div>
+  <div class="legend-row"><img class="legend-icon" src="icons/grocery-light.svg"> Grocery</div>
+  <div class="legend-row"><img class="legend-icon" src="icons/mcmiller-light.svg"> McMiller Sports</div>
+</div>
+
+<script>
+// PMTiles protocol setup
+const protocol = new pmtiles.Protocol();
+maplibregl.addProtocol('pmtiles', protocol.tile);
+
+const TILES = {
+  daylight: 'pmtiles://https://scriptedrelief.com/gallery/wi_dnr_lidar_n42.83_w88.28_daylight_9.0x.pmtiles',
+  cool: 'pmtiles://https://scriptedrelief.com/gallery/wi_dnr_lidar_n42.83_w88.28_cool-elevation_9.0x.pmtiles',
+};
+
+// Road colors per theme
+const ROAD_COLORS = {
+  daylight: {
+    primary: '#666666',
+    secondary: '#888888',
+    tertiary: '#aaaaaa',
+  },
+  cool: {
+    primary: '#cccccc',
+    secondary: '#aaaaaa',
+    tertiary: '#888888',
+  }
+};
+
+let currentTheme = 'cool';
+
+const map = new maplibregl.Map({
+  container: 'map',
+  style: {
+    version: 8,
+    glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
+    sources: {
+      hillshade: {
+        type: 'raster',
+        url: TILES.cool,
+        tileSize: 512,
+        attribution: '© Wisconsin DNR LiDAR / scriptedrelief.com',
+      }
+    },
+    layers: [
+      {
+        id: 'background',
+        type: 'background',
+        paint: { 'background-color': '#1a1a2e' }
+      },
+      {
+        id: 'hillshade',
+        type: 'raster',
+        source: 'hillshade',
+        paint: { 'raster-opacity': 1.0 }
+      }
+    ]
+  },
+  center: [-88.28, 42.83],
+  zoom: 10,
+  maxZoom: 17,
+});
+
+map.addControl(new maplibregl.NavigationControl(), 'top-right');
+
+// Icon names → SVG paths (theme-aware suffix)
+const ICON_DEFS = [
+  { id: 'campsite',        file_light: 'icons/tent-light.svg',            file_dark: 'icons/tent-dark.svg' },
+  { id: 'shower',          file_light: 'icons/shower-light.svg',          file_dark: 'icons/shower-dark.svg' },
+  { id: 'toilet_plumbed',  file_light: 'icons/toilet-plumbed-light.svg',  file_dark: 'icons/toilet-plumbed-dark.svg' },
+  { id: 'toilet_vault',    file_light: 'icons/toilet-vault-light.svg',    file_dark: 'icons/toilet-vault-dark.svg' },
+  { id: 'grocery',         file_light: 'icons/grocery-light.svg',         file_dark: 'icons/grocery-dark.svg' },
+  { id: 'mcmiller',        file_light: 'icons/mcmiller-light.svg',        file_dark: 'icons/mcmiller-dark.svg' },
+];
+
+function loadSVGImage(id, url) {
+  return new Promise((resolve, reject) => {
+    const img = new Image(32, 32);
+    img.onload = () => {
+      map.addImage(id, img);
+      resolve();
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
+}
+
+async function loadIcons(theme) {
+  const suffix = theme === 'daylight' ? 'light' : 'dark';
+  const loads = ICON_DEFS.map(def => {
+    const imgId = `icon-${def.id}`;
+    if (map.hasImage(imgId)) map.removeImage(imgId);
+    const file = theme === 'daylight' ? def.file_light : def.file_dark;
+    return loadSVGImage(imgId, file);
+  });
+  await Promise.all(loads);
+}
+
+const POI_LABELS = {
+  campsite: 'Campsite',
+  shower: 'Shower',
+  toilet_plumbed: 'Flush Toilet',
+  toilet_vault: 'Vault Toilet',
+  grocery: 'Grocery / Store',
+  mcmiller: 'McMiller Sports Center',
+};
+
+map.on('load', async () => {
+  await loadIcons(currentTheme);
+
+  // Load GeoJSON data
+  const [poisResp, roadsResp] = await Promise.all([
+    fetch('pois.geojson'),
+    fetch('roads_simplified.geojson'),
+  ]);
+  const [poisData, roadsData] = await Promise.all([poisResp.json(), roadsResp.json()]);
+
+  // Roads source + layers
+  map.addSource('roads', { type: 'geojson', data: roadsData });
+
+  map.addLayer({
+    id: 'roads-primary',
+    type: 'line',
+    source: 'roads',
+    filter: ['==', ['get', 'highway'], 'primary'],
+    paint: {
+      'line-color': ROAD_COLORS[currentTheme].primary,
+      'line-width': ['interpolate', ['linear'], ['zoom'], 8, 1, 14, 3],
+      'line-opacity': 0.7,
+    }
+  });
+  map.addLayer({
+    id: 'roads-secondary',
+    type: 'line',
+    source: 'roads',
+    filter: ['==', ['get', 'highway'], 'secondary'],
+    paint: {
+      'line-color': ROAD_COLORS[currentTheme].secondary,
+      'line-width': ['interpolate', ['linear'], ['zoom'], 8, 0.7, 14, 2],
+      'line-opacity': 0.6,
+    }
+  });
+  map.addLayer({
+    id: 'roads-tertiary',
+    type: 'line',
+    source: 'roads',
+    filter: ['==', ['get', 'highway'], 'tertiary'],
+    paint: {
+      'line-color': ROAD_COLORS[currentTheme].tertiary,
+      'line-width': ['interpolate', ['linear'], ['zoom'], 8, 0.4, 14, 1.5],
+      'line-opacity': 0.5,
+    }
+  });
+
+  // POIs source + layer
+  map.addSource('pois', { type: 'geojson', data: poisData });
+  map.addLayer({
+    id: 'pois-icons',
+    type: 'symbol',
+    source: 'pois',
+    layout: {
+      'icon-image': ['concat', 'icon-', ['get', 'poi_type']],
+      'icon-size': ['interpolate', ['linear'], ['zoom'], 9, 0.5, 13, 0.85, 16, 1.1],
+      'icon-allow-overlap': false,
+      'icon-ignore-placement': false,
+      'text-field': ['case',
+        ['!=', ['get', 'name'], ''], ['get', 'name'],
+        ''
+      ],
+      'text-font': ['Open Sans Regular'],
+      'text-size': 11,
+      'text-offset': [0, 1.4],
+      'text-anchor': 'top',
+      'text-optional': true,
+    },
+    paint: {
+      'text-color': currentTheme === 'daylight' ? '#222' : '#eee',
+      'text-halo-color': currentTheme === 'daylight' ? '#fff' : '#111',
+      'text-halo-width': 1.5,
+    }
+  });
+
+  // Popups on click
+  map.on('click', 'pois-icons', (e) => {
+    const props = e.features[0].properties;
+    const label = POI_LABELS[props.poi_type] || props.poi_type;
+    const name = props.name ? `<strong>${props.name}</strong>` : `<strong>${label}</strong>`;
+    const extra = props.name ? `<span style="color:#888;font-size:11px">${label}</span>` : '';
+    new maplibregl.Popup({ offset: 16 })
+      .setLngLat(e.features[0].geometry.coordinates)
+      .setHTML(`${name}${extra}`)
+      .addTo(map);
+  });
+
+  map.on('mouseenter', 'pois-icons', () => { map.getCanvas().style.cursor = 'pointer'; });
+  map.on('mouseleave', 'pois-icons', () => { map.getCanvas().style.cursor = ''; });
+});
+
+async function setTheme(theme) {
+  if (theme === currentTheme) return;
+  currentTheme = theme;
+
+  // Update tile source
+  map.getSource('hillshade').setUrl(TILES[theme]);
+
+  // Update background
+  const bg = theme === 'daylight' ? '#e8e0d8' : '#1a1a2e';
+  map.setPaintProperty('background', 'background-color', bg);
+
+  // Update road colors
+  map.setPaintProperty('roads-primary', 'line-color', ROAD_COLORS[theme].primary);
+  map.setPaintProperty('roads-secondary', 'line-color', ROAD_COLORS[theme].secondary);
+  map.setPaintProperty('roads-tertiary', 'line-color', ROAD_COLORS[theme].tertiary);
+
+  // Reload icons for new theme
+  await loadIcons(theme);
+
+  // Update text colors
+  const textColor = theme === 'daylight' ? '#222' : '#eee';
+  const haloColor = theme === 'daylight' ? '#fff' : '#111';
+  map.setPaintProperty('pois-icons', 'text-color', textColor);
+  map.setPaintProperty('pois-icons', 'text-halo-color', haloColor);
+
+  // Update legend icon sources
+  const suffix = theme === 'daylight' ? 'light' : 'dark';
+  document.querySelectorAll('#legend .legend-icon').forEach((img, i) => {
+    const def = ICON_DEFS[i];
+    img.src = theme === 'daylight' ? def.file_light : def.file_dark;
+  });
+
+  // Update button states
+  document.getElementById('btn-daylight').classList.toggle('active', theme === 'daylight');
+  document.getElementById('btn-cool').classList.toggle('active', theme === 'cool');
+
+  // Legend theme
+  document.getElementById('legend').classList.toggle('dark-theme', theme === 'cool');
+}
+</script>
+</body>
+</html>

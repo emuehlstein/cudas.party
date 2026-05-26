@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <circle cx="16" cy="16" r="14" fill="white" opacity="0.85"/>
+  <!-- Outhouse structure -->
+  <!-- Walls -->
+  <rect x="8" y="13" width="16" height="14" fill="#8B6914" stroke="#5C4510" stroke-width="1.5"/>
+  <!-- Roof (triangle) -->
+  <polygon points="16,5 27,14 5,14" fill="#5C4510" stroke="#3d2e0a" stroke-width="1"/>
+  <!-- Door -->
+  <rect x="13" y="18" width="6" height="9" rx="1" fill="#3d2e0a"/>
+  <!-- Crescent moon cutout -->
+  <path d="M15.5,20.5 A2.5,2.5 0 0,1 18.5,20.5 A1.5,1.5 0 0,0 15.5,20.5 Z" fill="#8B6914" opacity="0.8"/>
+  <text x="16" y="22.5" text-anchor="middle" font-size="5" fill="#c8a96e">☽</text>
+</svg>
