@@ -101,16 +101,8 @@ const TILES = {
 
 // Road colors per theme
 const ROAD_COLORS = {
-  daylight: {
-    primary: '#666666',
-    secondary: '#888888',
-    tertiary: '#aaaaaa',
-  },
-  cool: {
-    primary: '#cccccc',
-    secondary: '#aaaaaa',
-    tertiary: '#888888',
-  }
+  cool:     { motorway: '#ffdd88', us_route: '#ffbb44', state_hwy: '#dddddd', county_hwy: '#999999' },
+  daylight: { motorway: '#e8820c', us_route: '#cc6600', state_hwy: '#555555', county_hwy: '#888888' },
 };
 
 let currentTheme = 'cool';
@@ -197,44 +189,44 @@ map.on('load', async () => {
   // Load GeoJSON data
   const [poisResp, roadsResp] = await Promise.all([
     fetch('pois.geojson'),
-    fetch('roads_simplified.geojson'),
+    fetch('roads_curated.geojson'),
   ]);
   const [poisData, roadsData] = await Promise.all([poisResp.json(), roadsResp.json()]);
 
-  // Roads source + layers
+  // Roads source + layers (curated named highways only)
   map.addSource('roads', { type: 'geojson', data: roadsData });
-
-  map.addLayer({
-    id: 'roads-primary',
-    type: 'line',
-    source: 'roads',
-    filter: ['==', ['get', 'highway'], 'primary'],
-    paint: {
-      'line-color': ROAD_COLORS[currentTheme].primary,
-      'line-width': ['interpolate', ['linear'], ['zoom'], 8, 1, 14, 3],
-      'line-opacity': 0.7,
-    }
+  const rc0 = ROAD_COLORS[currentTheme];
+  [
+    { id: 'road-county',  cls: 'county_hwy', widths: [8,1,14,2.5],   opacity: 0.65 },
+    { id: 'road-state',   cls: 'state_hwy',  widths: [8,1.5,14,3.5], opacity: 0.75 },
+    { id: 'road-us',      cls: 'us_route',   widths: [8,2,14,5],     opacity: 0.85 },
+    { id: 'road-mway',    cls: 'motorway',   widths: [8,2.5,14,6],   opacity: 0.9  },
+  ].forEach(({id, cls, widths, opacity}) => {
+    map.addLayer({
+      id, type: 'line', source: 'roads',
+      filter: ['==', ['get', 'road_class'], cls],
+      paint: {
+        'line-color': rc0[cls],
+        'line-width': ['interpolate', ['linear'], ['zoom'], widths[0], widths[1], widths[2], widths[3]],
+        'line-opacity': opacity,
+      }
+    });
   });
   map.addLayer({
-    id: 'roads-secondary',
-    type: 'line',
-    source: 'roads',
-    filter: ['==', ['get', 'highway'], 'secondary'],
+    id: 'road-labels', type: 'symbol', source: 'roads', minzoom: 10,
+    filter: ['!=', ['get', 'ref'], ''],
+    layout: {
+      'symbol-placement': 'line',
+      'text-field': ['get', 'ref'],
+      'text-font': ['Open Sans Regular'],
+      'text-size': ['interpolate', ['linear'], ['zoom'], 10, 9, 14, 12],
+      'text-max-angle': 30,
+      'symbol-spacing': 300,
+    },
     paint: {
-      'line-color': ROAD_COLORS[currentTheme].secondary,
-      'line-width': ['interpolate', ['linear'], ['zoom'], 8, 0.7, 14, 2],
-      'line-opacity': 0.6,
-    }
-  });
-  map.addLayer({
-    id: 'roads-tertiary',
-    type: 'line',
-    source: 'roads',
-    filter: ['==', ['get', 'highway'], 'tertiary'],
-    paint: {
-      'line-color': ROAD_COLORS[currentTheme].tertiary,
-      'line-width': ['interpolate', ['linear'], ['zoom'], 8, 0.4, 14, 1.5],
-      'line-opacity': 0.5,
+      'text-color': currentTheme === 'daylight' ? '#333' : '#fff',
+      'text-halo-color': currentTheme === 'daylight' ? '#fff' : '#222',
+      'text-halo-width': 1.5,
     }
   });
 
@@ -294,9 +286,11 @@ async function setTheme(theme) {
   map.setPaintProperty('background', 'background-color', bg);
 
   // Update road colors
-  map.setPaintProperty('roads-primary', 'line-color', ROAD_COLORS[theme].primary);
-  map.setPaintProperty('roads-secondary', 'line-color', ROAD_COLORS[theme].secondary);
-  map.setPaintProperty('roads-tertiary', 'line-color', ROAD_COLORS[theme].tertiary);
+  const rc = ROAD_COLORS[theme];
+  [['road-county', rc.county_hwy], ['road-state', rc.state_hwy], ['road-us', rc.us_route], ['road-mway', rc.motorway]]
+    .forEach(([id, c]) => map.setPaintProperty(id, 'line-color', c));
+  map.setPaintProperty('road-labels', 'text-color', theme === 'daylight' ? '#333' : '#fff');
+  map.setPaintProperty('road-labels', 'text-halo-color', theme === 'daylight' ? '#fff' : '#222');
 
   // Reload icons for new theme
   await loadIcons(theme);
