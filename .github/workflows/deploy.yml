@@ -1,0 +1,52 @@
+name: Deploy to S3 + CloudFront
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Sync to S3
+        run: |
+          # Sync all files, set appropriate cache headers
+          # Long cache for versioned assets (icons, geojson)
+          aws s3 sync . s3://cudas.party \
+            --exclude ".git/*" \
+            --exclude ".github/*" \
+            --exclude "README.md" \
+            --exclude ".gitignore" \
+            --delete \
+            --cache-control "public, max-age=3600"
+
+          # Short cache for HTML (so updates propagate quickly)
+          aws s3 cp index.html s3://cudas.party/index.html \
+            --content-type "text/html; charset=utf-8" \
+            --cache-control "public, max-age=60"
+
+          aws s3 cp map.html s3://cudas.party/map.html \
+            --content-type "text/html; charset=utf-8" \
+            --cache-control "public, max-age=60"
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id E2R4LQ97TSGAXQ \
+            --paths "/*"
