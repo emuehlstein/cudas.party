@@ -6,6 +6,36 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -88.691,
+          42.7816
+        ]
+      },
+      "properties": {
+        "poi_type": "campsite",
+        "name": "Site 763",
+        "note": "Hickory Woods Group Camp \u2014 Res# INWI26-305284B1"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.6918,
+          42.7812
+        ]
+      },
+      "properties": {
+        "poi_type": "campsite",
+        "name": "Site 764",
+        "note": "Hickory Woods Group Camp \u2014 Res# INWI26-305284B2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -88.4765,
           42.9387
         ]
