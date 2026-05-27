@@ -235,11 +235,10 @@
       </div>
       <div id="map"></div>
       <div id="legend">
-        <div class="legend-row"><img class="legend-icon" id="leg-campsite" src="icons/tent-dark.svg"> Campsite</div>
-        <div class="legend-row"><img class="legend-icon" id="leg-shower" src="icons/shower-dark.svg"> Shower</div>
-        <div class="legend-row"><img class="legend-icon" id="leg-flush" src="icons/toilet-plumbed-dark.svg"> Flush Toilet</div>
         <div class="legend-row"><img class="legend-icon" id="leg-vault" src="icons/toilet-vault-dark.svg"> Vault Toilet</div>
+        <div class="legend-row"><img class="legend-icon" id="leg-shower" src="icons/shower-dark.svg"> Shower (off-site)</div>
         <div class="legend-row"><img class="legend-icon" id="leg-grocery" src="icons/grocery-dark.svg"> Grocery / Store</div>
+        <div class="legend-row"><img class="legend-icon" id="leg-fuel" src="icons/fuel-dark.svg"> Fuel</div>
         <div class="legend-row"><img class="legend-icon" id="leg-mcmiller" src="icons/mcmiller-dark.svg"> McMiller Sports</div>
       </div>
     </div>
@@ -273,6 +272,10 @@
       <div><h3>Vehicle Admission Pass Required</h3><p>Every motor vehicle needs a pass. Buy online in advance or at the gate. <a href="https://dnr.wisconsin.gov/topic/parks/admission" target="_blank">Buy online →</a></p></div>
     </div>
     <div class="kb-item">
+      <span class="kb-icon">🚿</span>
+      <div><h3>Primitive Campground — No Showers Onsite</h3><p>Hickory Woods &amp; Whitewater Lake have vault toilets only. Closest showers: Ottawa Lake Campground or Pinewoods Campground. Bring shower wipes, towel + sandals, backup water jug.</p></div>
+    </div>
+    <div class="kb-item">
       <span class="kb-icon">🪵</span>
       <div><h3>Firewood — Don't Bring It From Home</h3><p>Firewood must be from within 10 miles of the park, or DATCP-certified. Stops the spread of emerald ash borer. Buy it at the park or nearby.</p></div>
     </div>
@@ -283,6 +286,10 @@
     <div class="kb-item">
       <span class="kb-icon">🕒</span>
       <div><h3>Check-in 3 PM / Check-out 1 PM</h3><p>Don't show up at 9 AM expecting to set up. Plan a late lunch stop on the way if needed.</p></div>
+    </div>
+    <div class="kb-item">
+      <span class="kb-icon">⛽</span>
+      <div><h3>Closest Fuel: Cornerstone Filling Station</h3><p>S101W34414 County Road LO, Eagle WI — gas 24/7, deli, coffee, country store, propane, DNR licenses.</p></div>
     </div>
   </div>
 </section>
@@ -314,19 +321,20 @@ const ICON_DEFS = [
   { type: 'toilet_plumbed', dark: 'icons/toilet-plumbed-dark.svg',  light: 'icons/toilet-plumbed-light.svg' },
   { type: 'toilet_vault',   dark: 'icons/toilet-vault-dark.svg',    light: 'icons/toilet-vault-light.svg' },
   { type: 'grocery',        dark: 'icons/grocery-dark.svg',         light: 'icons/grocery-light.svg' },
+  { type: 'fuel',           dark: 'icons/fuel-dark.svg',            light: 'icons/fuel-light.svg' },
   { type: 'mcmiller',       dark: 'icons/mcmiller-dark.svg',        light: 'icons/mcmiller-light.svg' },
 ];
 
 const LEGEND_IDS = {
   campsite: 'leg-campsite', shower: 'leg-shower',
   toilet_plumbed: 'leg-flush', toilet_vault: 'leg-vault',
-  grocery: 'leg-grocery', mcmiller: 'leg-mcmiller',
+  grocery: 'leg-grocery', fuel: 'leg-fuel', mcmiller: 'leg-mcmiller',
 };
 
 const POI_LABELS = {
-  campsite: 'Campsite', shower: 'Shower',
+  campsite: 'Campsite', shower: 'Shower (off-site)',
   toilet_plumbed: 'Flush Toilet', toilet_vault: 'Vault Toilet',
-  grocery: 'Grocery / Store', mcmiller: 'McMiller Sports Center',
+  grocery: 'Grocery / Store', fuel: 'Fuel', mcmiller: 'McMiller Sports Center',
 };
 
 let currentTheme = 'cool';
@@ -440,9 +448,10 @@ map.on('load', async () => {
     const label = POI_LABELS[p.poi_type] || p.poi_type;
     const name = p.name || label;
     const sub = p.name ? `<span class="poi-sub">${label}</span>` : '';
-    new maplibregl.Popup({ offset: 16 })
+    const note = p.note ? `<span class="poi-sub" style="display:block;margin-top:4px">${p.note}</span>` : '';
+    new maplibregl.Popup({ offset: 16, maxWidth: '240px' })
       .setLngLat(e.features[0].geometry.coordinates)
-      .setHTML(`<strong>${name}</strong>${sub}`)
+      .setHTML(`<strong>${name}</strong>${sub}${note}`)
       .addTo(map);
   });
   map.on('mouseenter', 'pois', () => map.getCanvas().style.cursor = 'pointer');

@@ -6,18 +6,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -88.5438182,
-          42.6924107
+          -88.4765,
+          42.9387
         ]
       },
       "properties": {
-        "poi_type": "grocery",
-        "name": "Piggly Wiggly",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 3905590188,
-        "dist_km": 15.6
+        "poi_type": "shower",
+        "name": "Ottawa Lake Showers",
+        "note": "~25km from camp"
       }
     },
     {
@@ -25,17 +21,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -88.4717909,
-          42.7245674
+          -88.44837,
+          42.96168
         ]
       },
       "properties": {
-        "poi_type": "toilet_plumbed",
-        "name": "",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 4348069503
+        "poi_type": "shower",
+        "name": "Pinewoods Showers",
+        "note": "~28km from camp"
       }
     },
     {
@@ -43,326 +36,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -88.4374516,
-          42.5913769
-        ]
-      },
-      "properties": {
-        "poi_type": "toilet_plumbed",
-        "name": "",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 4348084901
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.5047207,
-          42.8095089
-        ]
-      },
-      "properties": {
-        "poi_type": "toilet_plumbed",
-        "name": "",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 4348121754
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.4628757,
-          42.7222008
-        ]
-      },
-      "properties": {
-        "poi_type": "toilet_plumbed",
-        "name": "",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 4677272534
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.4360548,
-          42.5898826
-        ]
-      },
-      "properties": {
-        "poi_type": "toilet_plumbed",
-        "name": "",
-        "operator": "",
-        "fee": "no",
-        "opening_hours": "",
-        "osm_id": 4896078072
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.4610745,
-          42.7334182
-        ]
-      },
-      "properties": {
-        "poi_type": "toilet_plumbed",
-        "name": "",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 5767174095
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.46478,
-          42.9232648
-        ]
-      },
-      "properties": {
-        "poi_type": "campsite",
-        "name": "KMSF-SU Shelter 1",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 6285151818
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.3861626,
-          42.8664981
-        ]
-      },
-      "properties": {
-        "poi_type": "toilet_plumbed",
-        "name": "",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 7501607565
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.3878743,
-          42.865409
-        ]
-      },
-      "properties": {
-        "poi_type": "toilet_plumbed",
-        "name": "",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 7501607566
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.388796,
-          42.8647748
-        ]
-      },
-      "properties": {
-        "poi_type": "toilet_plumbed",
-        "name": "",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 7501607567
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.3913856,
-          42.863078
-        ]
-      },
-      "properties": {
-        "poi_type": "toilet_plumbed",
-        "name": "",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 7501607569
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.3882515,
-          42.8628902
-        ]
-      },
-      "properties": {
-        "poi_type": "toilet_plumbed",
-        "name": "",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 7501607571
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.3868577,
-          42.8640969
-        ]
-      },
-      "properties": {
-        "poi_type": "campsite",
-        "name": "Mukwonago County Park Campground",
-        "operator": "Mukwonago County",
-        "fee": "yes",
-        "opening_hours": "",
-        "osm_id": 7501607573
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.3604837,
-          42.8453249
-        ]
-      },
-      "properties": {
-        "poi_type": "campsite",
-        "name": "Phantom Ranch Bible Camp",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 8169513986
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.5425842,
-          42.6947971
-        ]
-      },
-      "properties": {
-        "poi_type": "grocery",
-        "name": "Kwik Trip",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 9128268030,
-        "dist_km": 15.5
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.5419364,
-          42.6700649
-        ]
-      },
-      "properties": {
-        "poi_type": "grocery",
-        "name": "Speedway",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 9206357209,
-        "dist_km": 17.4
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.4999932,
-          42.6925985
-        ]
-      },
-      "properties": {
-        "poi_type": "grocery",
-        "name": "BP Shop",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 10055276647,
-        "dist_km": 18.5
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.4435676,
-          42.9648523
-        ]
-      },
-      "properties": {
-        "poi_type": "toilet_plumbed",
-        "name": "",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 11028288959
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.5185013,
-          42.8589085
+          -88.5185,
+          42.85891
         ]
       },
       "properties": {
         "poi_type": "mcmiller",
         "name": "McMiller Ski Trail System",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 11511371509
+        "note": "9am\u20134pm \u00b7 Eye+ear protection required \u00b7 Sporting clays, trap, rifle to 300yd \u00b7 Rentals available"
       }
     },
     {
@@ -370,126 +51,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -88.4485108,
-          42.9582966
-        ]
-      },
-      "properties": {
-        "poi_type": "toilet_plumbed",
-        "name": "",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 11778645920
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.4490361,
-          42.9598312
-        ]
-      },
-      "properties": {
-        "poi_type": "toilet_plumbed",
-        "name": "",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 11778645923
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.4430993,
-          42.96252
-        ]
-      },
-      "properties": {
-        "poi_type": "toilet_plumbed",
-        "name": "",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 11778645926
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.4405068,
-          42.9634919
-        ]
-      },
-      "properties": {
-        "poi_type": "toilet_plumbed",
-        "name": "",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 11778645927
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.4491867,
-          42.9644657
-        ]
-      },
-      "properties": {
-        "poi_type": "toilet_plumbed",
-        "name": "",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 11778645928
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.448181,
-          42.9632904
-        ]
-      },
-      "properties": {
-        "poi_type": "toilet_plumbed",
-        "name": "",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 11778645929
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.5422315,
-          42.7252604
+          -88.75659,
+          42.83641
         ]
       },
       "properties": {
         "poi_type": "grocery",
-        "name": "BP Shop",
-        "operator": "",
-        "fee": "",
-        "opening_hours": "",
-        "osm_id": 12084417112,
-        "dist_km": 13.7
+        "name": "Walmart Supercenter",
+        "note": "Full groceries + camping supplies \u00b7 Whitewater"
       }
     },
     {
@@ -497,15 +66,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -88.5758558925926,
-          42.868688514814814
+          -88.75836,
+          42.83533
         ]
       },
       "properties": {
-        "poi_type": "campsite",
-        "name": "Horseriders' Campground",
-        "osm_id": 829771032,
-        "source": "way_centroid"
+        "poi_type": "grocery",
+        "name": "ALDI",
+        "note": "Cheaper grocery option \u00b7 Whitewater"
       }
     },
     {
@@ -513,15 +81,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -88.47650106923076,
-          42.938703173076924
+          -88.74871,
+          42.8344
         ]
       },
       "properties": {
-        "poi_type": "campsite",
-        "name": "Ottawa Lake Campground",
-        "osm_id": 1071983005,
-        "source": "way_centroid"
+        "poi_type": "grocery",
+        "name": "Walgreens",
+        "note": "Meds + forgotten essentials \u00b7 Whitewater"
       }
     },
     {
@@ -529,79 +96,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -88.51359495222222,
-          42.81148575888889
+          -88.43165,
+          42.85902
         ]
       },
       "properties": {
-        "poi_type": "campsite",
-        "name": "Camp Timber-lee",
-        "osm_id": 1180532707,
-        "source": "way_centroid"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.518547875,
-          42.858718
-        ]
-      },
-      "properties": {
-        "poi_type": "mcmiller",
-        "name": "McMiller Warming Shelter",
-        "osm_id": 1238660557,
-        "source": "way_centroid"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.51836598461539,
-          42.864425284615386
-        ]
-      },
-      "properties": {
-        "poi_type": "mcmiller",
-        "name": "McMiller Range",
-        "osm_id": 1268046580,
-        "source": "way_centroid"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.51965616,
-          42.863442580000005
-        ]
-      },
-      "properties": {
-        "poi_type": "mcmiller",
-        "name": "McMiller Sports Center",
-        "osm_id": 1268046581,
-        "source": "way_centroid"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -88.44837038529413,
-          42.961683673529414
-        ]
-      },
-      "properties": {
-        "poi_type": "campsite",
-        "name": "Pinewoods Campground",
-        "osm_id": 1268190180,
-        "source": "way_centroid"
+        "poi_type": "fuel",
+        "name": "Cornerstone Filling Station",
+        "note": "Gas 24/7 \u00b7 Deli \u00b7 Coffee \u00b7 Country store \u00b7 Propane \u00b7 DNR licenses \u00b7 Eagle WI"
       }
     }
   ]
