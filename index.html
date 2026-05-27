@@ -377,9 +377,14 @@ const POI_LABELS = {
 };
 
 const TILE_URLS = {
-  standard: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-  topo:     'https://{a}.tile.opentopomap.org/{z}/{x}/{y}.png',
-  carto:    'https://{a-d}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
+  standard: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+  topo:     ['https://a.tile.opentopomap.org/{z}/{x}/{y}.png',
+             'https://b.tile.opentopomap.org/{z}/{x}/{y}.png',
+             'https://c.tile.opentopomap.org/{z}/{x}/{y}.png'],
+  carto:    ['https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
+             'https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
+             'https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
+             'https://d.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png'],
 };
 
 function toggleFullscreen() {
@@ -405,7 +410,7 @@ const map = new maplibregl.Map({
     sources: {
       osm: {
         type: 'raster',
-        tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+        tiles: TILE_URLS.standard,
         tileSize: 256,
         attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors',
         maxzoom: 19,
@@ -484,7 +489,7 @@ async function setTheme(theme) {
   if (theme === currentTheme) return;
   currentTheme = theme;
 
-  map.getSource('osm').setTiles([TILE_URLS[theme]]);
+  map.getSource('osm').setTiles(TILE_URLS[theme]);
 
   const isDark = theme === 'topo';
   await loadIcons(theme);
