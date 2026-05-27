@@ -19,10 +19,22 @@
 
   /* Hero */
   .hero {
+    position: relative;
     text-align: center;
-    padding: 64px 20px 40px;
-    background: linear-gradient(180deg, #0a0d14 0%, var(--bg) 100%);
+    padding: 100px 20px 60px;
+    background: #0a0d14;
+    overflow: hidden;
   }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('photos/kettle-campfire.jpg');
+    background-size: cover;
+    background-position: center 40%;
+    opacity: 0.35;
+    filter: saturate(0.7);
+  }
+  .hero > * { position: relative; z-index: 1; }
   .hero-shark { font-size: 56px; display: block; margin-bottom: 16px; }
   .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -0.02em; }
   .hero h1 span { color: var(--accent); }
@@ -184,6 +196,7 @@
 
 <!-- Hero -->
 <div class="hero">
+  <div class="hero-bg"></div>
   <span class="hero-shark">🦈</span>
   <h1>Cudas <span>Party</span></h1>
   <p class="hero-sub">Kettle Moraine State Forest — Southern Unit</p>
@@ -255,32 +268,10 @@
   </div>
 </section>
 
-<!-- Photos -->
-<section class="section" style="padding-top:0">
-  <h2 class="section-title">The Crew &amp; The Camp</h2>
-  <!-- Hero photo: campfire -->
-  <div style="border-radius:14px;overflow:hidden;margin-bottom:12px;aspect-ratio:4/3;background:#111;">
-    <img src="photos/kettle-campfire.jpg" alt="Campfire at Kettle Moraine" style="width:100%;height:100%;object-fit:cover;display:block;">
-  </div>
-  <!-- 4-photo grid -->
-  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
-    <div style="border-radius:10px;overflow:hidden;aspect-ratio:4/3;background:#111;">
-      <img src="photos/kettle-campsite.jpg" alt="Campsite" style="width:100%;height:100%;object-fit:cover;display:block;">
-    </div>
-    <div style="border-radius:10px;overflow:hidden;aspect-ratio:4/3;background:#111;">
-      <img src="photos/kettle-trail.jpg" alt="Trail sign" style="width:100%;height:100%;object-fit:cover;display:block;">
-    </div>
-    <div style="border-radius:10px;overflow:hidden;aspect-ratio:4/3;background:#111;">
-      <img src="photos/crew-water.jpg" alt="Crew on the water" style="width:100%;height:100%;object-fit:cover;display:block;">
-    </div>
-    <div style="border-radius:10px;overflow:hidden;aspect-ratio:4/3;background:#111;">
-      <img src="photos/crew-party.jpg" alt="The crew" style="width:100%;height:100%;object-fit:cover;display:block;">
-    </div>
-  </div>
-</section>
-
 <!-- Trails -->
-<section class="section">
+<section class="section" style="position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background-image:url('photos/crew-water.jpg');background-size:cover;background-position:center;opacity:0.07;filter:saturate(0.5);"></div>
+  <div style="position:relative;z-index:1;"><!-- trails-inner -->
   <h2 class="section-title">Trails &amp; Activities</h2>
   <div class="trails-grid">
     <div class="trail-card"><h3>🥾 John Muir Trail</h3><p>Classic Kettle Moraine loops ranging 4–16 miles. Mix of prairie, forest, and kettles. Trailhead near Ottawa Lake.</p></div>
@@ -290,10 +281,13 @@
     <div class="trail-card"><h3>🏊 Swimming</h3><p>Swimming beach at Ottawa Lake and Whitewater Lake. Lifeguard hours vary — check at the park office.</p></div>
     <div class="trail-card"><h3>🎿 McMiller Sports Center</h3><p>Multi-use recreation area nearby. Archery, shooting sports, and more.</p></div>
   </div>
+  </div>
 </section>
 
 <!-- Good to Know -->
-<section class="section">
+<section class="section" style="position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background-image:url('photos/crew-party.jpg');background-size:cover;background-position:center 30%;opacity:0.07;filter:saturate(0.4);"></div>
+  <div style="position:relative;z-index:1;"><!-- kb-inner -->
   <h2 class="section-title">Good to Know</h2>
   <div class="knowbefore-list">
     <div class="kb-item">
@@ -320,6 +314,7 @@
       <span class="kb-icon">⛽</span>
       <div><h3>Closest Fuel: Cornerstone Filling Station</h3><p>S101W34414 County Road LO, Eagle WI — gas 24/7, deli, coffee, country store, propane, DNR licenses.</p></div>
     </div>
+  </div>
   </div>
 </section>
 
